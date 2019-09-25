@@ -1,5 +1,7 @@
 python -m pip install -U pygame--user
-pip install tmx•pip install numpy
+pip install tmx
+pip install numpy
+pip install deap
 git clone https://github.com/karinemiras/evoman_framework evoman_framework_original
 echo
 echo

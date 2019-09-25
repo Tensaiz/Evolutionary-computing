@@ -15,9 +15,19 @@ from demo_controller import player_controller
 
 # imports other libs
 import time
+from datetime import datetime
+import random
 import numpy as np
 from math import fabs,sqrt
 import glob
+
+# EC framework
+from deap import base
+from deap import creator
+from deap import tools
+from deap import algorithms
+
+### Configuration
 
 experiment_name = 'specialist_A1'
 if not os.path.exists(experiment_name):
@@ -32,17 +42,68 @@ env = Environment(experiment_name=experiment_name,
                   player_controller=player_controller(n_hidden_neurons),
                   enemymode="static",
                   level=2,
+                  logs="off",
                   speed="fastest")
 
 n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
 
-dom_u = 1
-dom_l = -1
-npop = 5
-gens = 30
-mutation = 0.2
-last_best = 0
+domain_upper = 1
+domain_lower = -1
+n_pop = 100 # 100
+n_gens = 30 # 30
+mutation_p = 0.2
+cross_p = 0.5
 
-weights = np.random.uniform(dom_l, dom_u, (npop, n_vars))
+# Evo framework config
 
-list(map(lambda y: env.play(pcont=y), weights))
+# runs simulation
+def simulation(individual):
+    f,p,e,t = env.play(pcont=np.array(individual))
+    return f
+
+def evaluation(individual):
+    return (simulation(individual),)
+
+# Initialize the fitness and individual classes
+creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+creator.create("Individual", list, fitness=creator.FitnessMax)
+
+toolbox = base.Toolbox()
+# Attribute generator
+toolbox.register("attr_weight", random.uniform, domain_lower, domain_upper)
+# Structure initializers
+toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_weight, n_vars)
+toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+toolbox.register("evaluate", evaluation)
+toolbox.register("mate", tools.cxTwoPoint)
+toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
+toolbox.register("select", tools.selTournament, tournsize=3)
+
+pop = toolbox.population(n=n_pop)
+hof = tools.HallOfFame(1)
+stats = tools.Statistics(lambda ind: ind.fitness.values)
+stats.register("avg", np.mean)
+stats.register("std", np.std)
+stats.register("min", np.min)
+stats.register("max", np.max)
+
+name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+
+for en in range(1, 4):
+
+    #Update the enemy
+    env.update_parameter('enemies', [en])
+
+    print('\n Evolving specialist on enemy: '+str(en)+' \n')
+
+    pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+
+    # saves results for first pop
+    f  = open(experiment_name+'/results_log_' + name_suffix + '_enemy_' + str(en) + '.txt','a')
+    f.write(str(log))
+    f.close()
+
+    f  = open(experiment_name+'/results_best_' + name_suffix + '_enemy_' + str(en) + '.txt','a')
+    f.write(str(hof[0]))
+    f.close()
