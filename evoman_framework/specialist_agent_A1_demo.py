@@ -8,7 +8,7 @@
 ###############################################################################
 
 # Format: day-month-year_hours-minutes-seconds
-FILE_DAY_TIME = '25-09-2019_20-07-33'
+FILE_DAY_TIME = '26-09-2019_00-57-14'
 
 # imports framework
 import sys, os
@@ -26,7 +26,7 @@ if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
 # Update the number of neurons for this specific example
-n_hidden_neurons = 5
+n_hidden_neurons = 10
 
 # initializes environment for single objective mode (specialist)  with static enemy and ai player
 env = Environment(experiment_name=experiment_name,
