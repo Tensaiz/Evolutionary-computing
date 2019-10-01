@@ -87,8 +87,6 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
     return population, logbook
 
-
-
 ### Configuration
 
 experiment_name = 'specialist_A1_fixed'
@@ -141,7 +139,6 @@ toolbox.register("attr_weight", random.uniform, domain_lower, domain_upper)
 # Structure initializers
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_weight, n_vars)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-
 toolbox.register("evaluate", evaluation)
 toolbox.register("mate", tools.cxTwoPoint)
 toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)

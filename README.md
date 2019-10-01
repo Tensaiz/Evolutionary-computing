@@ -1,5 +1,12 @@
 # Evolutionary-computing
 
+### TODO
+
+- Implement second algorithm
+- Check with TA if 10 independent experiments should be ran for all enemies (30 experiments) for every algorithm
+- Get the fitness for the best solutions and plot them in box plots (maybe get max-fitness over all generations)
+- Statistical analysis to check if one algorithm is significantly better (checking arithmetic mean)
+
 ### evoman_framework directory
 
 - The evoman directory
