@@ -87,10 +87,68 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
     return population, logbook
 
+def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
+                    stats=None, halloffame=None, verbose=__debug__):
+
+    assert lambda_ >= mu, "lambda must be greater or equal to mu."
+
+    life_mean = 0
+
+    logbook = tools.Logbook()
+    logbook.header = ['gen', 'nevals', 'life_avg'] + (stats.fields if stats else [])
+
+    # Evaluate the individuals with an invalid fitness
+    invalid_ind = [ind for ind in population if not ind.fitness.valid]
+    eval = list(toolbox.map(toolbox.evaluate, invalid_ind))
+
+    fitnesses = [e[0] for e in eval]
+    life_list = [e[1] for e in eval]
+    life_mean = np.mean(life_list)
+
+    for ind, fit in zip(invalid_ind, fitnesses):
+        ind.fitness.values = fit
+
+    if halloffame is not None:
+        halloffame.update(population)
+
+    record = stats.compile(population) if stats is not None else {}
+    logbook.record(gen=0, nevals=len(invalid_ind), life_avg=life_mean, **record)
+    if verbose:
+        print(logbook.stream)
+
+    # Begin the generational process
+    for gen in range(1, ngen + 1):
+        # Vary the population
+        offspring = algorithms.varOr(population, toolbox, lambda_, cxpb, mutpb)
+
+        # Evaluate the individuals with an invalid fitness
+        invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
+        eval = list(toolbox.map(toolbox.evaluate, invalid_ind))
+        fitnesses = [e[0] for e in eval]
+        life_list = [e[1] for e in eval]
+        life_mean = np.mean(life_list)
+
+        for ind, fit in zip(invalid_ind, fitnesses):
+            ind.fitness.values = fit
+
+        # Update the hall of fame with the generated individuals
+        if halloffame is not None:
+            halloffame.update(offspring)
+
+        # Select the next generation population
+        population[:] = toolbox.select(offspring, mu)
+
+        # Update the statistics with the new population
+        record = stats.compile(population) if stats is not None else {}
+        logbook.record(gen=gen, nevals=len(invalid_ind), life_avg=life_mean, **record)
+        if verbose:
+            print(logbook.stream)
+    return population, logbook
+
 ### Configuration
 
 experiment_name = 'specialist_A1_fixed'
-algorithm_name = 'Mu + Lambda'
+algorithm_name = 'Mu , Lambda'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -161,7 +219,7 @@ for en in range(1, 4):
     print('\n Evolving specialist on enemy: '+str(en)+' \n')
 
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
-    pop, log = eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+    pop, log = eaMuCommaLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
     # saves results for first pop
     f  = open(experiment_name+'/life_test' + name_suffix + '_enemy_' + str(en) + '.txt','a')
