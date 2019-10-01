@@ -1,4 +1,4 @@
-python -m pip install -U pygame--user
+python -m pip install -U pygame --user
 pip install tmx
 pip install numpy
 pip install deap
@@ -6,6 +6,6 @@ git clone https://github.com/karinemiras/evoman_framework evoman_framework_origi
 echo
 echo
 echo To test the installation, run a demo!
-echo use: cd evoman_framework
+echo use: cd evoman_framework_original
 echo python controller_specialist_demo.py
 echo
