@@ -100,7 +100,7 @@ for en in range(1, 4):
     print('\n Evolving specialist on enemy: '+str(en)+' \n')
 
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
-    pop, log = algorithms.eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+    pop, log = algorithms.eaMuCommaLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
     # saves results for first pop
     f  = open(experiment_name+'/results_log_' + name_suffix + '_enemy_' + str(en) + '.txt','a')
