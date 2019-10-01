@@ -2,10 +2,12 @@
 
 ### TODO
 
-- Implement second algorithm
+- Check if STD of average life of population is correct in analysis line plot
+- Implement second algorithm Mu, lambda. (First algorithm = Mu + lambda)
 - Check with TA if 10 independent experiments should be ran for all enemies (30 experiments) for every algorithm
 - Get the fitness for the best solutions and plot them in box plots (maybe get max-fitness over all generations)
 - Statistical analysis to check if one algorithm is significantly better (checking arithmetic mean)
+- Write paper
 
 ### evoman_framework directory
 
