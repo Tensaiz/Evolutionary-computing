@@ -147,8 +147,8 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
 ### Configuration
 
-experiment_name = 'specialist_A2_fixed'
-algorithm_name = 'Mu , Lambda'
+experiment_name = 'specialist_A1_fixed_100'
+algorithm_name = 'Mu + Lambda'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -169,7 +169,7 @@ n_vars = (env.get_num_sensors()+1)*n_hidden_neurons + (n_hidden_neurons+1)*5
 domain_upper = 1
 domain_lower = -1
 n_pop = 100
-n_gens = 30
+n_gens = 100
 mutation_p = 0.2
 cross_p = 0.5
 mu = 100
@@ -219,10 +219,10 @@ for en in range(1, 4):
     print('\n Evolving specialist on enemy: '+str(en)+' \n')
 
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
-    pop, log = eaMuCommaLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+    pop, log = eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
     # saves results for first pop
-    f  = open(experiment_name+'/life_test' + name_suffix + '_enemy_' + str(en) + '.txt','a')
+    f  = open(experiment_name+'/life_' + name_suffix + '_enemy_' + str(en) + '.txt','a')
     f.write(str(log))
     f.write(
         '\n' +
