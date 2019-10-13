@@ -166,9 +166,12 @@ mu = 100
 lambda_ = 200
 
 # Initialise enemy combinations
-all_enemies = list(range(1, 8+1))
-num_enemies = 2
-all_combos = list(itertools.combinations(all_enemies, num_enemies))
+# all_enemies = list(range(1, 8+1))
+# num_enemies = 2
+# all_combos = list(itertools.combinations(all_enemies, num_enemies))
+
+all_combos = [[2,4], [2,6], [7, 8]]
+# all_combos = [[1, 5, 6], [1, 2, 5], [2, 5, 6]]
 
 # runs simulation
 def simulation(individual):
@@ -178,6 +181,8 @@ def simulation(individual):
 def evaluation(individual):
     f, p = simulation(individual)
     return [(f,), p]
+
+name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
 
 for en in all_combos:
     enemies = list(en)
@@ -209,8 +214,6 @@ for en in all_combos:
     toolbox.register("mate", tools.cxTwoPoint)
     toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=3)
-
-    name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
 
     pop = toolbox.population(n=n_pop)
     hof = tools.HallOfFame(1)
