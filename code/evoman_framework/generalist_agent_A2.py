@@ -170,8 +170,10 @@ lambda_ = 200
 # num_enemies = 2
 # all_combos = list(itertools.combinations(all_enemies, num_enemies))
 
-all_combos = [[2,4], [2,6], [7, 8]]
+# all_combos = [[2,4], [2,6], [7, 8]]
 # all_combos = [[1, 5, 6], [1, 2, 5], [2, 5, 6]]
+# all_combos = [[1, 2, 3, 4, 5, 6, 7, 8]]
+all_combos = [[1, 2, 5, 6, 8]]
 
 # runs simulation
 def simulation(individual):
