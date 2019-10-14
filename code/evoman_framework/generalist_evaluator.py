@@ -81,4 +81,5 @@ wins = list(map(lambda x: x.count(1), victory))
 most_wins = max(wins)
 index = wins.index(most_wins)
 
-print('Most wins: ' + str(most_wins) + ' achieved by solution: \n' + solutions[index])
+print('\n\n\nWin list: ' + str(wins) + '\n\n\n')
+print('Most wins: ' + str(most_wins) + ' achieved by solution: \n' + solutions[index] + '\n\n')
