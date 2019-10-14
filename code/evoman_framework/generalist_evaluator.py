@@ -41,14 +41,20 @@ enemies = []
 # Get the best solutions
 solutions = os.listdir('./generalist_A2')
 solutions = list(filter(lambda x: 'gen_best' in x, solutions))
+#solution_gain = list(filter(lambda x: '[2, 4]' in x, solutions))
+
+#for i in range(1,5):
+#    solution_gain.append(solution_gain[0])
 
 fitness = []
 victory = []
+gain = []
 
 for solution in solutions:
     enemies = solution.split('_')[-1][0:-4]
     enemies = enemies.strip('][').split(', ')
     enemies = list(map(lambda x: int(x), enemies))
+    sol_gain = 0
 
     print('\n TESTING GENERALIST SOLUTION TRAINED ON ENEMIES: ' + str(enemies) + ' \n')
 
@@ -73,13 +79,24 @@ for solution in solutions:
             victory[-1].append(1)
         else:
             victory[-1].append(0)
+
+        # Add gain of a game to total
+        sol_gain += (p-e)
+
     print('PERFORMANCE OF:')
     print(solution)
     print('\n' + 'Fitnesses:\n' + str(fitness[-1]) + '\n' + 'Victories:' + '\n' + str(victory[-1]))
+    print('GAIN:', sol_gain)
+    gain.append(sol_gain)
 
 wins = list(map(lambda x: x.count(1), victory))
 most_wins = max(wins)
 index = wins.index(most_wins)
+max_gain = max(gain)
+max_gain_index = gain.index(max_gain)
+gain_average = np.mean(gain)
 
 print('\n\n\nWin list: ' + str(wins) + '\n\n\n')
 print('Most wins: ' + str(most_wins) + ' achieved by solution: \n' + solutions[index] + '\n\n')
+print('Max gain: ' + str(max_gain) + ' achieved by solution: \n' + solutions[max_gain_index] + '\n\n')
+#print('Average gain: ' + str(gain_average) + ' achieved by solution: \n' + solution_gain[max_gain_index] + '\n\n')
