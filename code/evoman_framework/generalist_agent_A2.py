@@ -170,10 +170,16 @@ lambda_ = 200
 # num_enemies = 2
 # all_combos = list(itertools.combinations(all_enemies, num_enemies))
 
+# Trained mu+lambda
 # all_combos = [[2,4], [2,6], [7, 8]]
 # all_combos = [[1, 5, 6], [1, 2, 5], [2, 5, 6]]
 # all_combos = [[1, 2, 3, 4, 5, 6, 7, 8]]
-all_combos = [[1, 2, 5, 6, 8]]
+# all_combos = [[1, 2, 5, 6, 8]]
+
+# Trained mu,lambda
+# all_combos = [[7, 8]]
+# all_combos = [[2, 4]]
+all_combos = [[2, 6]]
 
 # runs simulation
 def simulation(individual):
@@ -228,7 +234,7 @@ for en in all_combos:
     print('\n Evolving generalist on enemy combination: ' + str(en) + ' \n')
 
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
-    pop, log = eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+    pop, log = eaMuCommaLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
     # saves results for first pop
     f = open(experiment_name+'/gen_' + name_suffix + '_enemies_' + str(enemies) + '.txt', 'a')
