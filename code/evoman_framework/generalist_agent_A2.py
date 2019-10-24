@@ -33,9 +33,10 @@ from deap import algorithms
 def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
                    stats=None, halloffame=None, verbose=__debug__):
     life_mean = 0
+    life_std = 0
 
     logbook = tools.Logbook()
-    logbook.header = ['gen', 'nevals', 'life_avg'] + (stats.fields if stats else [])
+    logbook.header = ['gen', 'nevals', 'life_avg', 'life_std'] + (stats.fields if stats else [])
 
     # Evaluate the individuals with an invalid fitness
     invalid_ind = [ind for ind in population if not ind.fitness.valid]
@@ -44,6 +45,7 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
     fitnesses = [e[0] for e in eval]
     life_list = [e[1] for e in eval]
     life_mean = np.mean(life_list)
+    life_std = np.std(life_list)
 
     for ind, fit in zip(invalid_ind, fitnesses):
         ind.fitness.values = fit
@@ -52,7 +54,7 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
         halloffame.update(population)
 
     record = stats.compile(population) if stats is not None else {}
-    logbook.record(gen=0, nevals=len(invalid_ind), life_avg=life_mean, **record)
+    logbook.record(gen=0, nevals=len(invalid_ind), life_avg=life_mean, life_std=life_std, **record)
     if verbose:
         print(logbook.stream)
 
@@ -68,6 +70,7 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
         fitnesses = [e[0] for e in eval]
         life_list = [e[1] for e in eval]
         life_mean = np.mean(life_list)
+        life_std = np.std(life_list)
 
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
@@ -81,7 +84,7 @@ def eaMuPlusLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
         # Update the statistics with the new population
         record = stats.compile(population) if stats is not None else {}
-        logbook.record(gen=gen, nevals=len(invalid_ind), life_avg=life_mean, **record)
+        logbook.record(gen=gen, nevals=len(invalid_ind), life_avg=life_mean,life_std=life_std, **record)
         if verbose:
             print(logbook.stream)
 
@@ -93,9 +96,10 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
     assert lambda_ >= mu, "lambda must be greater or equal to mu."
 
     life_mean = 0
+    life_std = 0
 
     logbook = tools.Logbook()
-    logbook.header = ['gen', 'nevals', 'life_avg'] + (stats.fields if stats else [])
+    logbook.header = ['gen', 'nevals', 'life_avg', 'life_std'] + (stats.fields if stats else [])
 
     # Evaluate the individuals with an invalid fitness
     invalid_ind = [ind for ind in population if not ind.fitness.valid]
@@ -104,6 +108,7 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
     fitnesses = [e[0] for e in eval]
     life_list = [e[1] for e in eval]
     life_mean = np.mean(life_list)
+    life_std = np.std(life_list)
 
     for ind, fit in zip(invalid_ind, fitnesses):
         ind.fitness.values = fit
@@ -112,7 +117,7 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
         halloffame.update(population)
 
     record = stats.compile(population) if stats is not None else {}
-    logbook.record(gen=0, nevals=len(invalid_ind), life_avg=life_mean, **record)
+    logbook.record(gen=0, nevals=len(invalid_ind), life_avg=life_mean, life_std=life_std, **record)
     if verbose:
         print(logbook.stream)
 
@@ -127,6 +132,7 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
         fitnesses = [e[0] for e in eval]
         life_list = [e[1] for e in eval]
         life_mean = np.mean(life_list)
+        life_std = np.std(life_list)
 
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
@@ -140,7 +146,7 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
         # Update the statistics with the new population
         record = stats.compile(population) if stats is not None else {}
-        logbook.record(gen=gen, nevals=len(invalid_ind), life_avg=life_mean, **record)
+        logbook.record(gen=gen, nevals=len(invalid_ind), life_avg=life_mean, life_std=life_std, **record)
         if verbose:
             print(logbook.stream)
     return population, logbook
@@ -165,20 +171,6 @@ cross_p = 0.5
 mu = 100
 lambda_ = 200
 
-# Initialise enemy combinations
-# all_enemies = list(range(1, 8+1))
-# num_enemies = 2
-# all_combos = list(itertools.combinations(all_enemies, num_enemies))
-
-# Trained mu+lambda
-# all_combos = [[2,4], [2,6], [7, 8]]
-# all_combos = [[1, 5, 6], [1, 2, 5], [2, 5, 6]]
-# all_combos = [[1, 2, 3, 4, 5, 6, 7, 8]]
-# all_combos = [[1, 2, 5, 6, 8]]
-
-# Trained mu,lambda
-# all_combos = [[7, 8]]
-# all_combos = [[2, 4]]
 all_combos = [[2, 4]]
 
 # runs simulation
