@@ -38,8 +38,10 @@ env = Environment(experiment_name=experiment_name,
 solutions = []
 enemies = []
 
+folder = './generalist_A2/'
+
 # Get the best solutions
-solutions = os.listdir('./generalist_A2')
+solutions = os.listdir(folder)
 solutions = list(filter(lambda x: 'gen_best' in x, solutions))
 #solution_gain = list(filter(lambda x: '[2, 4]' in x, solutions))
 
@@ -67,7 +69,7 @@ for solution in solutions:
         env.update_parameter('enemies', [en])
 
         # Load specialist controller
-        with open('./generalist_A2/' + solution) as f:
+        with open(folder + solution) as f:
             sol = f.readline()
         sol = sol[1:-2].split(', ')
         sol = np.array(sol).astype(np.float)
