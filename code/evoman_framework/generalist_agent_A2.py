@@ -13,6 +13,8 @@ sys.path.insert(0, 'evoman')
 from environment import Environment
 from demo_controller import player_controller
 
+from types import MethodType
+
 # imports other libs
 import time
 from datetime import datetime
@@ -171,7 +173,7 @@ cross_p = 0.5
 mu = 100
 lambda_ = 200
 
-all_combos = [[2, 4]]
+all_combos = [[1, 2, 4, 6]]
 
 # runs simulation
 def simulation(individual):
@@ -182,7 +184,24 @@ def evaluation(individual):
     f, p = simulation(individual)
     return [(f,), p]
 
+def custom_multi(self, values):
+    return values.mean()
+
+def custom_fitness(self):
+    fitness = 0.9*(100 - self.get_enemylife()) + 0.1*self.get_playerlife() - np.log(self.get_time())
+    if self.get_enemylife() == 0:
+        fitness += 1000
+    return fitness
+
 name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+
+FOLDER_BEST = './numpy_solutions/'
+FILE_BEST = '38.txt'
+
+def init_best():
+    weights = np.loadtxt(FOLDER_BEST + FILE_BEST)
+    ind = creator.Individual(weights)
+    return ind
 
 for en in all_combos:
     enemies = list(en)
@@ -198,6 +217,9 @@ for en in all_combos:
                       logs="off",
                       speed="fastest")
 
+    env.fitness_single = MethodType(custom_fitness, env)
+    env.cons_multi = MethodType(custom_multi, env)
+
     n_vars = (env.get_num_sensors() + 1) * n_hidden_neurons + (n_hidden_neurons + 1) * 5
 
     # Initialize the fitness and individual classes
@@ -206,9 +228,10 @@ for en in all_combos:
 
     toolbox = base.Toolbox()
     # Attribute generator
-    toolbox.register("attr_weight", random.uniform, domain_lower, domain_upper)
+    # toolbox.register("attr_weight", random.uniform, domain_lower, domain_upper)
     # Structure initializers
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_weight, n_vars)
+    # toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_weight, n_vars)
+    toolbox.register("individual", init_best)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("evaluate", evaluation)
     toolbox.register("mate", tools.cxTwoPoint)

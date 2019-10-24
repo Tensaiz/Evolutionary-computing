@@ -15,6 +15,9 @@ from demo_controller import player_controller
 
 import numpy as np
 
+from types import MethodType
+
+
 FOLDER = './numpy_solutions/'
 FILE = '38.txt'
 
@@ -42,6 +45,7 @@ for en in range(1, 9):
 	#Update the enemy
 	env.update_parameter('enemies',[en])
 
-	env.play(sol)
+	f, p, e, t = env.play(sol)
+
 
 print('\n  \n')

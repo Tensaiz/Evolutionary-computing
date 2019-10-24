@@ -2,7 +2,7 @@ import numpy as np
 
 # Config
 OUT_FOLDER = './numpy_solutions/'
-FILE = 'gen_best_14-10-2019_00-55-57_enemies_[2, 4].txt'
+FILE = 'gen_best_14-10-2019_00-55-57_enemies_[7, 8].txt'
 OUT_NAME = '38.txt'
 
 # Read in custom solution file
