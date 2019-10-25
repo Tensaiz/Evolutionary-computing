@@ -40,6 +40,7 @@ env = Environment(experiment_name=experiment_name,
 solutions = []
 enemies = []
 
+algorithm = 'MuPlusLambda'
 folder = './generalist_A2/'
 
 # Get the best solutions
@@ -82,6 +83,4 @@ for solution in solutions:
     df = pd.DataFrame(gain_sol)
     columns = ["en_1", "en_2", "en_3", "en_4", "en_5", "en_6", "en_7", "en_8"]
     df.columns = columns
-    df.to_csv('/generalist_A2_tester/generalist_test_' + str(solution) + '.csv')
-
-
+    df.to_csv('./generalist_A2_tester/' + algorithm + '/generalist_test_' + str(solution[0:-4]) + '.csv', index=False)
