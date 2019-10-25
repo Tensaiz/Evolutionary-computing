@@ -21,8 +21,10 @@ import pandas as pd
 experiment_name = 'generalist_test'
 name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
 
-if not os.path.exists(experiment_name):
-    os.makedirs(experiment_name)
+algorithm = 'MuPlusLambda'
+
+if not os.path.exists('generalist_A2_tester/' + algorithm):
+    os.makedirs('generalist_A2_tester/' + algorithm)
 
 # Update the number of neurons for this specific example
 n_hidden_neurons = 10
@@ -40,13 +42,15 @@ env = Environment(experiment_name=experiment_name,
 solutions = []
 enemies = []
 
-algorithm = 'MuPlusLambda'
-folder = './generalist_A2/'
+folder = './generalist_A2_' + algorithm + '/'
+
+if not os.path.exists(experiment_name):
+    os.makedirs(experiment_name)
+
 
 # Get the best solutions
 solutions = os.listdir(folder)
 solutions = list(filter(lambda x: 'gen_best' in x, solutions))
-solutions = list(filter(lambda x: '[2, 4]' in x, solutions))
 gain_complete = []
 
 # Check for all solutions

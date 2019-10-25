@@ -38,15 +38,11 @@ env = Environment(experiment_name=experiment_name,
 solutions = []
 enemies = []
 
-folder = './generalist_A2/'
+folder = './generalist_A2_muCommaLambda/'
 
 # Get the best solutions
 solutions = os.listdir(folder)
 solutions = list(filter(lambda x: 'gen_best' in x, solutions))
-#solution_gain = list(filter(lambda x: '[2, 4]' in x, solutions))
-
-#for i in range(1,5):
-#    solution_gain.append(solution_gain[0])
 
 fitness = []
 victory = []

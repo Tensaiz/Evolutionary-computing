@@ -157,7 +157,7 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
 
 ### Configuration
-experiment_name = 'generalist_A2_muPCommaLambda'
+experiment_name = 'generalist_A2_muCommaLambda'
 algorithm_name = 'Mu, Lambda'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
