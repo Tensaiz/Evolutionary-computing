@@ -157,8 +157,8 @@ def eaMuCommaLambda(population, toolbox, mu, lambda_, cxpb, mutpb, ngen,
 
 
 ### Configuration
-experiment_name = 'generalist_A2_muPlusLambda'
-algorithm_name = 'Mu + Lambda'
+experiment_name = 'generalist_A2_muPCommaLambda'
+algorithm_name = 'Mu, Lambda'
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 
@@ -249,7 +249,7 @@ for en in all_combos:
     print('\n Evolving generalist on enemy combination: ' + str(en) + ' \n')
 
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
-    pop, log = eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
+    pop, log = eaMuCommaLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
     # saves results for first pop
     f = open(experiment_name+'/gen_' + name_suffix + '_enemies_' + str(enemies) + '.txt', 'a')
