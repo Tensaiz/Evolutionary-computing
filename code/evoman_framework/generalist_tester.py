@@ -21,7 +21,7 @@ import pandas as pd
 experiment_name = 'generalist_test'
 name_suffix = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
 
-algorithm = 'MuPlusLambda'
+algorithm = 'MuCommaLambda'
 
 if not os.path.exists('generalist_A2_tester/' + algorithm):
     os.makedirs('generalist_A2_tester/' + algorithm)

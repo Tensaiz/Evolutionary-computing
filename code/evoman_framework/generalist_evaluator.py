@@ -38,7 +38,7 @@ env = Environment(experiment_name=experiment_name,
 solutions = []
 enemies = []
 
-folder = './generalist_A2_muCommaLambda/'
+folder = './generalist_A2_combined/'
 
 # Get the best solutions
 solutions = os.listdir(folder)
