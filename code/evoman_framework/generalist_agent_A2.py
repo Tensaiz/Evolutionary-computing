@@ -251,6 +251,27 @@ for en in all_combos:
     # pop, log = algorithms.eaSimple(pop, toolbox, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
     pop, log = eaMuPlusLambda(pop, toolbox, mu=mu, lambda_=lambda_, cxpb=cross_p, mutpb=mutation_p, ngen=n_gens, stats=stats, halloffame=hof, verbose=True)
 
+    try:
+        print(log)
+        print(
+            '\n' +
+            'n_hidden_neurons = ' + str(n_hidden_neurons) + '\n'
+            'domain_upper = ' + str(domain_upper) + '\n'
+            'domain_lower = ' + str(domain_lower) + '\n'
+            'n_pop = ' + str(n_pop) + '\n'
+            'n_gens = ' + str(n_gens) + '\n'
+            'mutation_p = ' + str(mutation_p) + '\n'
+            'cross_p = ' + str(cross_p) + '\n'
+            'Mu = ' + str(mu) + '\n'
+            'Lambda = ' + str(lambda_) + '\n'
+            'Algorithm = ' + algorithm_name + '\n'
+            'Enemies = ' + str(enemies) + '\n'
+        )
+        print(str(hof[0]))
+        print()
+    except:
+        pass
+
     # saves results for first pop
     f = open(experiment_name+'/gen_' + name_suffix + '_enemies_' + str(enemies) + '.txt', 'a')
     f.write(str(log))
